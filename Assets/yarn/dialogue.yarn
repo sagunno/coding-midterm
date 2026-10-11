@@ -1,0 +1,417 @@
+title: variables
+position: -415,-426
+---
+// for the dynamite
+<<declare $saw_dynamite = false>>
+<<declare $has_dynamite = false>>
+
+//for mama capsule interactions
+<<declare $met_capsule = false>>
+<<declare $asked_hobbies = false>>
+<<declare $asked_why_here = false>>
+<<declare $quest_start = false>>
+
+//quest stuff
+<<declare $kids_found = 0>>
+<<declare $quest_complete = false>>
+===
+
+title:loader
+---
+<<if $quest_complete>>
+    <<jump quest_done>>
+<<elseif $kids_found >= 7>>
+    <<jump quest_turn_in>>
+<<elseif $quest_start>>
+    <<jump quest_repeat>>
+<<elseif $met_capsule>>
+    <<jump repeat>>
+<<else>>
+    <<jump introduction>>
+<<endif>>
+===
+
+title: introduction
+color: blue
+position: -388,-182
+---
+NestedParentArmature_Unpack: Hey.
+Capsule: Oh, hello!
+Capsule: I didn't see you there.
+NestedParentArmature_Unpack: Really? 
+NestedParentArmature_Unpack: I walked right through the front entrance. I wasn't trying to hide or anything.
+Capsule: I was facing the other way. 
+NestedParentArmature_Unpack: What?
+NestedParentArmature_Unpack: Oh. Right, you are a capsule. I can't really tell what direction you are facing.
+Capsule: Well, I'm facing towards you now.
+NestedParentArmature_Unpack: Right.
+NestedParentArmature_Unpack: Well, whats your name?
+Capsule: My name is Capsule.
+NestedParentArmature_Unpack: I should've guessed. 
+NestedParentArmature_Unpack: Thats a neat name.
+Capsule: Thanks. How about you?
+NestedParentArmature_Unpack: Oh me? My names NestedParentArmature_Unpack. 
+NestedParentArmature_Unpack: But my friends call me NPA for short. Heh.
+Capsule: Do they really?
+NestedParentArmature_Unpack: No. I don't have friends.
+Capsule: Oh. 
+Capsule: Well, we can be friends if you want. 
+NestedParentArmature_Unpack: Really? Awesome. 
+<<set $met_capsule to true>>
+<<jump repeat>>
+===
+
+title: repeat
+position: -79,-143
+---
+Capsule: So, friend. What did you want to talk about?
+-> What are you doing in a cave? <<if $asked_why_here == false>>
+    <<jump asking_about_why_in_cave>>
+-> Where are your kids? <<if $asked_why_here == true>>
+    <<jump asking_about_kids>>
+-> Do you have any hobbies? <<if $asked_hobbies == false>>
+    <<jump asking_about_hobbies>>
+-> So about that "red cylinder" on that cube... <<if $saw_dynamite and not $has_dynamite>>
+    <<jump asking_about_dynamite>>
+===
+
+title: asking_about_why_in_cave
+color: 28d23c
+position: -110,203
+---
+ Capsule: I just lounge around in here to pass the days. This unity scene is pretty boring so, I don't really have anywhere to go.
+    NestedParentArmature_Unpack: That seems kind of lonely, doesn't it?
+    Capsule: I'm usually not alone.
+    NestedParentArmature_Unpack: You aren't?
+    Capsule: I have kids.
+    NestedParentArmature_Unpack: Excuse me?
+    Capsule: Yeah. I have seven kids. 
+    NestedParentArmature_Unpack: Wow. Thats a big happy family. 
+    Capsule: Thanks.
+    NestedParentArmature_Unpack: Wheres your, er, partner?
+    Capsule: I reproduce asexually.
+    NestedParentArmature_Unpack: ...
+    NestedParentArmature_Unpack: Cool.
+    Capsule: Thanks, friend.
+    <<set $asked_why_here = true>>
+===
+
+title: asking_about_kids
+position: -107,354
+---
+Capsule: I'm gonna be honest. I don't even know.
+NestedParentArmature_Unpack: ...
+NestedParentArmature_Unpack: You're telling me you lost all 7 of your kids?
+Capsule: I don't like move very much, so I can't really chase them around.
+Capsule: I've been kind of worried about them, but I don't really have the motivation to go out and find them...
+-> Offer to help find their kids
+    NestedParentArmature_Unpack: I could see if I can find them for you.
+    Capsule: Really? That would be great!
+    NestedParentArmature_Unpack: Yeah of course, just give me a bit.
+    Capsule: Thanks, friend. :D
+    <<set $quest_start = true>>
+-> Walk away awkwardly
+    NestedParentArmature_Unpack: ok bye idc.
+    Capsule: ???
+===
+
+title: asking_about_hobbies
+position: -429,246
+---
+Capsule: Oh, hobbies?
+Capsule: I don't really think I have any hobbies.
+NestedParentArmature_Unpack: Really? Nothing?
+Capsule: Well, I mean, I've been really into this lamp inside of my cave.
+NestedParentArmature_Unpack: I see.
+NestedParentArmature_Unpack: Its pretty bright.
+Capsule: Yeah, it is. Without it this place would probably be pretty dark.
+NestedParentArmature_Unpack: Yeah, you are probably right.
+<<set $asked_hobbies = true>>
+===
+
+title: asking_about_dynamite
+position: -739,244
+---
+Capsule: Oh, that? Yeah what about it?
+NestedParentArmature_Unpack: What is it?
+Capsule: Its dynamite.
+NestedParentArmature_Unpack: Oh wow. You just keep that here?
+Capsule: Yeah.
+NestedParentArmature_Unpack: Can I have it...? I could maybe use it for something.
+Capsule: Sure. I don't see why not.
+NestedParentArmature_Unpack: Awesome.
+Capsule grabs the "dynamite" from on top of the cube and hands it to you.
+<<set $has_dynamite to true>>
+===
+
+title: quest_repeat
+position: -79,24
+---
+Capsule: How you doing? You find them yet?
+-> I'm having trouble finding them...
+    Capsule: Really? They really aren't that hard to find, especially since the scene is really really empty.
+    NestedParentArmature_Unpack: Hey. I could have just chosen to not help you.
+    Capsule: Right, my bad, I was being rude.
+    Capsule: Just look out for any Capsules that are much smaller then me. 
+    Capsule: Each of my kids are very unique but at the end of the day, they are always gonna be a capsule.
+-> So about that "red cylinder" on that cube... <<if $saw_dynamite and not $has_dynamite>>
+    <<jump asking_about_dynamite>>
+===
+
+title: dynamite_interact
+position: -1052,-137
+---
+You see an abstract representation of dynamite on this cube. You better not touch it. It's not yours and stealing is bad.
+<<set $saw_dynamite to true>>
+===
+
+title: capsule_interact_before_quest
+position: 1039,60
+---
+You see a capsule here, minding its own buisness. Its best you leave it alone, you probably don't want to bother it.
+===
+
+title: rubble_before_dynamite
+position: -1052,28
+---
+<<if $has_dynamite>>
+    <<jump rubble_with_dynamite>>
+<<else>>
+    You see a pile of rubble blocking this tunnel entrace. Maybe there is a way to get rid of it.
+<<endif>>
+===
+
+title: rubble_with_dynamite
+position: -1060,195
+---
+You light the dynamite and lob it into the rubble. After a short delay, the rubble is destroyed and dissipates.
+<<clear_rubble>>
+===
+
+title: Red_Capsule
+position: 540,-421
+---
+<<if not $quest_start>>
+    <<jump capsule_interact_before_quest>>
+<<else>>
+    Red Capsule: IM FUCKING FUMINGG!!!!!
+    NestedParentArmature_Unpack: Ow. That is literally right in my ear why are you so damn loud.
+    Red Capsule: BECAUSE.
+    Red Capsule: I AM ANGRY.
+    Red Capsule: I AM SUPER FUCKING ANGRY!!!!
+    NestedParentArmature_Unpack: Why?
+    Red Capsule: BECAUSE IM RED.
+    Red Capsule: IM SO FUCKING RED URRRGGHHHH.
+    Red Capsule: AND ALSO.
+    Red Capsule: THE WORLD FUCKING SUCKS.
+    Red Capsule: I FUCKING HATE EVERYTHING.
+    Red Capsule: IN FACT.
+    Red Capsule: I HATE YOU!!!!
+    NestedParentArmature_Unpack: ...
+    NestedParentArmature_Unpack: Alright little guy lets just get you back home.
+    Red Capsule: GRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR.
+    <<set $kids_found to $kids_found + 1>>
+    <<rescue_kid RedCapsule>>
+<<endif>>
+===
+
+title: Gay_Capsule
+position: 558,-257
+---
+<<if not $quest_start>>
+    <<jump capsule_interact_before_quest>>
+<<else>>
+   Gay Capsule: Hey.
+   NestedParentArmature_Unpack: Whats up.
+   Gay Capsule: How are you doing.
+   NestedParentArmature_Unpack: I'm doing okay. Thanks for asking! 
+   NestedParentArmature_Unpack: Wow, I'm kind of surprised.
+   Gay Capsule: Hm? Why?
+   NestedParentArmature_Unpack: I guess I just was expecting some random thing to happen when I walked up to talk to you.
+   NestedParentArmature_Unpack: I'm trying to help your, er, parent by finding all of you and your siblings.
+   NestedParentArmature_Unpack: You never know how kids can act these days.
+   Gay Capsule: I guess so.
+   NestedParentArmature_Unpack: My names NestedParentArmature_Unpack. What's your name?
+   Gay Capsule: My name is Gay Capsule.
+   NestedParentArmature_Unpack: Oh. I-
+   Gay Capsule: What?
+   NestedParentArmature_Unpack: Nothing.
+   Gay Capsule: Wait no, tell me.
+   NestedParentArmature_Unpack: I guess I was just surprised is all.
+   NestedParentArmature_Unpack: Are you gay?
+   Gay Capsule: Yeah. I like boy capsules. 
+   NestedParentArmature_Unpack: I see.
+   Gay Capsule: Why were you surprised? 
+   Gay Capsule: Were you not expecting that? Do I not sound "gay" enough?
+   NestedParentArmature_Unpack: ...
+   NestedParentArmature_Unpack: I would like to deeply apologize. 
+   NestedParentArmature_Unpack: Lets just get you back home.
+    <<set $kids_found to $kids_found + 1>>
+    <<rescue_kid GayCapsule>>
+<<endif>>
+===
+
+title: Kind_Capsule
+position: 556,-119
+---
+<<if not $quest_start>>
+    <<jump capsule_interact_before_quest>>
+<<else>>
+   Kind Capsule: Hello Mister!
+   NestedParentArmature_Unpack: Hey whats up big gu- I mean whats up buddy.
+   Kind Capsule: Nothing much! Just sitting in the unity sun. 
+   Kind Capsule: It feels nice on my mesh. Ahhhh. 
+   NestedParentArmature_Unpack: Thats good to hear.
+   NestedParentArmature_Unpack: Your parent is worried about you and your siblings, so I'm here to help them round all of you guys up so you can go back home.
+   Kind Capsule: I see. 
+   Kind Capsule: I understand, we were playing outside for a pretty long time anyway.
+   NestedParentArmature_Unpack: What's your name little Capsule?
+   Kind Capsule: Hmmm. I name is... oh wait! How about you guess? That would be a fun game to play.
+   NestedParentArmature_Unpack: I would rather not.
+   Kind Capsule: Come on! It's not as hard as you think, our names are pretty literal.
+   NestedParentArmature_Unpack: ...
+   NestedParentArmature_Unpack: Are you Fat Capsule.
+   Kind Capsule: ...
+   Kind Capsule: NO IM NOT. WHY WOULD YOU THINK THAT? IM KIND CAPSULE.
+   Kind Capsule: WHY WOULD YOU SAY THAT TO ME?
+   NestedParentArmature_Unpack: I. 
+   NestedParentArmature_Unpack: ...
+   NestedParentArmature_Unpack: Come on lets get you home man.
+    <<set $kids_found to $kids_found + 1>>
+    <<rescue_kid KindCapsule>>
+<<endif>>
+===
+
+title: Finance_Bro_Capsule
+position: 528,47
+---
+<<if not $quest_start>>
+    <<jump capsule_interact_before_quest>>
+<<else>>
+    Finance Bro Capsule: Yooo wassup dude.
+    NestedParentArmature_Unpack: Hey.
+    Finance Bro Capsule: You wanna learn how to make 35k a month?
+    NestedParentArmature_Unpack: Woah, thats a lot of money.
+    Finance Bro Capsule: Yeah. I know all the secrets. I'm pretty fuckin' rich.
+    NestedParentArmature_Unpack: Uh, ok. Sure. How do I make that much.
+    Finance Bro Capsule: Alright so its a two gig plan which you gotta grind out for 30 hours a week, not that bad.
+    Finance Bro Capsule: First, you gotta put, like, all of your life savings into Ethereum and let that sit.
+    Finance Bro Capsule: Pretty sure its gonna go up again since its on the down-low of a Bart pattern right now.
+    Finance Bro Capsule: Then, there are rumors that after its peak, its gonna keep going. 
+    Finance Bro Capsule: Thats the first "gig."
+    Finance Bro Capsule: The second gig is that you are gonna want to use ChatGPT or Claude to automate a Youtube Shorts channel which just clips streamers' unfunny clips and posts them.
+    Finance Bro Capsule: That should generate hella revenue for you in less then a month if you get in the algorithm's favor. 
+    Finance Bro Capsule: Thats the second "gig."
+    Finance Bro Capsule: Now, when you set that shit up, you won't have to work a day in your life.
+    Finance Bro Capsule: I also be grinding on Kalshi for small dopamine profits. Just for fun. The hustle, you know?
+    NestedParentArmature_Unpack: .
+    NestedParentArmature_Unpack: . .
+    NestedParentArmature_Unpack: . . .
+    NestedParentArmature_Unpack: I know which kid is the least favorite. 
+    NestedParentArmature_Unpack: Let's just get you back home. 
+    <<set $kids_found to $kids_found + 1>>
+    <<rescue_kid FinanceBroCapsule>>
+<<endif>>
+===
+
+
+
+title: Purple_Capsule
+position: 551,213
+---
+<<if not $quest_start>>
+    <<jump capsule_interact_before_quest>>
+<<else>>
+    Purple Capsule: I always come back.
+    NestedParentArmature_Unpack: Exuse me?
+    Purple Capsule: Nothing. 
+    NestedParentArmature_Unpack: Alright then.
+    Purple Capsule: You found us. You freed us from the rubble!
+    NestedParentArmature_Unpack: Yeah, I did..?
+    Purple Capsule: Thank goodness. I swear we've spent like five nights here.
+    NestedParentArmature_Unpack: How did you guys survive that long?
+    Purple Capsule: We are unity game objects. We don't need to eat. 
+    NestedParentArmature_Unpack: Oh. Right.
+    Purple Capsule: Although, I've always thought about what food would taste like. 
+    Purple Capsule: I think I want to open up a pizzeria or diner with someone. 
+    NestedParentArmature_Unpack: I see. Interesting aspirations.
+    Purple Capsule: Yeah. I think we would also do entertainment inside the location.
+    Purple Capsule: And then I would kill like five children.
+    NestedParentArmature_Unpack: ...
+    NestedParentArmature_Unpack: You gotta get to bed man.
+    <<set $kids_found to $kids_found + 1>>
+    <<rescue_kid PurpleCapsule>>
+<<endif>>
+===
+
+title: Special_Capsule
+position: 559,570
+---
+<<if not $quest_start>>
+    You don't have a real reason to talk to this guy.
+<<else>>
+    Special Capsule: Yo whats good.
+    NestedParentArmature_Unpack: Hello there.
+    NestedParentArmature_Unpack: I'm looking for some capsules around your size around this area. 
+    NestedParentArmature_Unpack: I'm trying to round them together so I can help them return to their parent.
+    Special Capsule: Ohhh. Well guess what. 
+    NestedParentArmature_Unpack: What?
+    Special Capsule: You just found one!
+    NestedParentArmature_Unpack: . . .
+    NestedParentArmature_Unpack: Uh. You are a Cylinder.
+    Special Capsule: What. 
+    NestedParentArmature_Unpack: Yeah, you aren't round everywhere.
+    NestedParentArmature_Unpack: And you have a flat face on the top of you.
+    Special Capsule: Well, my parent says that I'm a Capsule just like all my other siblings.
+    Special Capsule: I don't know what the hell you are talking about.
+    NestedParentArmature_Unpack: Your parent said that? They are obviously-
+    NestedParentArmature_Unpack: ...
+    NestedParentArmature_Unpack: Oh. 
+    NestedParentArmature_Unpack: Ooohhh.
+    NestedParentArmature_Unpack: Wait, yeah my bad. You are a Capsule... the unity sun put a glare in my eyes. That's my bad.
+    Special Capsule: Don't worry, mistakes happen.
+    NestedParentArmature_Unpack: Yeah. They do.
+    NestedParentArmature_Unpack: Let's get you home buddy.
+    <<set $kids_found to $kids_found + 1>>
+    <<rescue_kid SpecialCapsule>>
+<<endif>>
+===
+
+title: Dramatic_Capsule
+position: 554,415
+---
+<<if not $quest_start>>
+    <<jump capsule_interact_before_quest>>
+<<else>>
+    Dramatic Capsule: This is it! I'm gonna do it! I'm gonna run away into the voids of unity. 
+    Dramatic Capsule: I want to know what it feels like to TRULY LIVE! No LONGER am I bound to this space!
+    Dramatic Capsule: I want to feel the wind on my sails! I want to explore. I want.
+    Dramatic Capsule: I want. To. LIVE!!!!
+    NestedParentArmature_Unpack: ... 
+    NestedParentArmature_Unpack: I climbed all the way up here for you, you little shit.
+    NestedParentArmature_Unpack: You are returning home.
+    Dramatic Capsule: Gulp.
+    <<set $kids_found to $kids_found + 1>>
+    <<rescue_kid DramaticCapsule>>
+<<endif>>
+===
+
+title: quest_turn_in
+position: 247,-138
+---
+    Capsule: OH MY GOSH. MY BABIES!!! YOU FOUND ALL OF THEM!!!
+    NestedParentArmature_Unpack: Yeah. They were actually pretty easy to find. Just, uh.
+    NestedParentArmature_Unpack: You know what. Yeah, I'm not gonna question how or why your children ended up like how they are.
+    Capsule: What was that?
+    NestedParentArmature_Unpack: Nothing! Just happy to help out a friend.
+    Capsule: Thank you so much!
+    Capsule: If you ever need help with anything. Don't ever be afraid to ask.
+    NestedParentArmature_Unpack: Thanks, that means a lot.
+    <<set $quest_complete to true>>
+===
+
+title: quest_done
+position: 260,17
+---
+    NestedParentArmature_Unpack: Thanks again for helping me find my kiddos! The cave ain't so lonely anymore!
+===
